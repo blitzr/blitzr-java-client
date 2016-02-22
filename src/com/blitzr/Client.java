@@ -15,7 +15,6 @@ import com.blitzr.models.utils.City;
 import com.blitzr.models.utils.Country;
 import com.blitzr.models.utils.SearchResults;
 import com.blitzr.models.utils.Service;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.Date;
