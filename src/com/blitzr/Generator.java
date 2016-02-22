@@ -3,9 +3,6 @@ package com.blitzr;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/**
- * Created by martin on 19/02/16.
- */
 public abstract class Generator<T> implements Iterable<T> {
     private class Condition {
         private boolean isSet;
