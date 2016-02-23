@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ApiCaller {
     /**
@@ -58,7 +59,7 @@ public class ApiCaller {
     private static String parametersFromMap(HashMap<String, Object> map){
         ArrayList<String> couples = new ArrayList<String>();
 
-        for(HashMap.Entry<String, Object> entry: map.entrySet()){
+        for(Map.Entry<String, Object> entry: map.entrySet()){
 
             try {
                 if (entry.getValue() != null) {
@@ -71,7 +72,7 @@ public class ApiCaller {
 
         }
         couples.add(String.format("%s=%s", "key", Client.getApiKey()));
-        return String.join("&", couples);
+        return Utils.concatStringsWSep(couples, "&");
     }
 
     public static <T> T getApi (String urlStr, Class<T> T, HashMap<String, Object> params) {

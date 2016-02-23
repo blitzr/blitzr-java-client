@@ -41,7 +41,7 @@ public class Client {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (extras != null) ? String.join(",", extras) : null);
+        params.put("extras", (extras != null) ? Utils.concatStringsWSep(extras, ",") : null);
         params.put("extras_limit", extras_limit);
         return ApiCaller.getApi("artist/", Artist.class, params);
     }
@@ -248,7 +248,7 @@ public class Client {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (filters != null) ? String.join(",", filters) : null);
+        params.put("extras", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("artist/similar/", Artist.class, params);
@@ -368,7 +368,7 @@ public class Client {
         HashMap<String, Object> params = new HashMap<>();
         params.put("source_name", source);
         params.put("source_id", id);
-        params.put("source_filters", (source_filters != null) ? String.join(",", source_filters) : null);
+        params.put("source_filters", (source_filters != null) ? Utils.concatStringsWSep(source_filters, ",") : null);
         params.put("strict", strict ? "true" : null);
         return ApiCaller.getApiList("harmonia/searchbysource/", Track.class, params);
     }
@@ -377,7 +377,7 @@ public class Client {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (extras != null) ? String.join(",", extras) : null);
+        params.put("extras", (extras != null) ? Utils.concatStringsWSep(extras, ",") : null);
         params.put("extras_limit", extras_limit);
         return ApiCaller.getApi("label/", Label.class, params);
     }
@@ -468,7 +468,7 @@ public class Client {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (filters != null) ? String.join(",", filters) : null);
+        params.put("extras", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("label/similar/", Label.class, params);
@@ -562,7 +562,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -573,7 +573,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -681,7 +681,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -692,7 +692,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -729,7 +729,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -740,7 +740,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -777,7 +777,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("search/track/", Track.class, params);
@@ -787,7 +787,7 @@ public class Client {
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? String.join(",", filters) : null);
+        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         params.put("extras", true);
