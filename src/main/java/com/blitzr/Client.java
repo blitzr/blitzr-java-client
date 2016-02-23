@@ -1,16 +1,23 @@
 package com.blitzr;
 
 import com.blitzr.models.artist.Artist;
+import com.blitzr.models.artist.ArtistExtras;
+import com.blitzr.models.artist.ArtistFilters;
 import com.blitzr.models.event.Event;
 import com.blitzr.models.label.Label;
+import com.blitzr.models.label.LabelExtras;
+import com.blitzr.models.label.LabelFilters;
 import com.blitzr.models.release.Release;
+import com.blitzr.models.release.ReleaseFilters;
 import com.blitzr.models.release.ReleaseFormat;
 import com.blitzr.models.release.ReleaseType;
 import com.blitzr.models.shop.Product;
 import com.blitzr.models.shop.ProductType;
 import com.blitzr.models.tag.Tag;
 import com.blitzr.models.track.Source;
+import com.blitzr.models.track.SourceFilters;
 import com.blitzr.models.track.Track;
+import com.blitzr.models.track.TrackFilters;
 import com.blitzr.models.utils.City;
 import com.blitzr.models.utils.Country;
 import com.blitzr.models.utils.SearchResults;
@@ -37,11 +44,11 @@ public class Client {
         return mApiKey;
     }
 
-    public Artist getArtist(String slug, String uuid, ArrayList<String> extras, Integer extras_limit) {
+    public Artist getArtist(String slug, String uuid, ArrayList<ArtistExtras> extras, Integer extras_limit) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (extras != null) ? Utils.concatStringsWSep(extras, ",") : null);
+        params.put("extras", (extras != null) ? Utils.concatOptionsWSep(extras, ",") : null);
         params.put("extras_limit", extras_limit);
         return ApiCaller.getApi("artist/", Artist.class, params);
     }
@@ -243,18 +250,18 @@ public class Client {
         };
     }
 
-    public List<Artist> getArtistSimilar(String slug, String uuid, ArrayList<String> filters, Integer start, Integer limit)
+    public List<Artist> getArtistSimilar(String slug, String uuid, ArrayList<ArtistFilters> filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("extras", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("artist/similar/", Artist.class, params);
     }
 
-    public Generator<Artist> getArtistSimilarGenerator(final String slug, final String uuid, final ArrayList<String> filters, final Integer start, final Integer limit)
+    public Generator<Artist> getArtistSimilarGenerator(final String slug, final String uuid, final ArrayList<ArtistFilters> filters, final Integer start, final Integer limit)
     {
         return new Generator<Artist>() {
             @Override
@@ -364,20 +371,20 @@ public class Client {
         return ApiCaller.getApi("harmonia/release/", Release.class, params);
     }
 
-    public List<Track> getHarmoniaSearchBySource(String source, Object id, List<String> source_filters, Boolean strict) {
+    public List<Track> getHarmoniaSearchBySource(String source, Object id, List<SourceFilters> source_filters, Boolean strict) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("source_name", source);
         params.put("source_id", id);
-        params.put("source_filters", (source_filters != null) ? Utils.concatStringsWSep(source_filters, ",") : null);
+        params.put("source_filters", (source_filters != null) ? Utils.concatOptionsWSep(source_filters, ",") : null);
         params.put("strict", strict ? "true" : null);
         return ApiCaller.getApiList("harmonia/searchbysource/", Track.class, params);
     }
 
-    public Label getLabel(String slug, String uuid, ArrayList<String> extras, Integer extras_limit) {
+    public Label getLabel(String slug, String uuid, ArrayList<LabelExtras> extras, Integer extras_limit) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (extras != null) ? Utils.concatStringsWSep(extras, ",") : null);
+        params.put("extras", (extras != null) ? Utils.concatOptionsWSep(extras, ",") : null);
         params.put("extras_limit", extras_limit);
         return ApiCaller.getApi("label/", Label.class, params);
     }
@@ -463,18 +470,18 @@ public class Client {
         };
     }
 
-    public List<Label> getLabelSimilar(String slug, String uuid, ArrayList<String> filters, Integer start, Integer limit)
+    public List<Label> getLabelSimilar(String slug, String uuid, ArrayList<LabelFilters> filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("extras", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("label/similar/", Label.class, params);
     }
 
-    public Generator<Label> getLabelSimilarGenerator(final String slug, final String uuid, final ArrayList<String> filters, final Integer start, final Integer limit)
+    public Generator<Label> getLabelSimilarGenerator(final String slug, final String uuid, final ArrayList<LabelFilters> filters, final Integer start, final Integer limit)
     {
         return new Generator<Label>() {
             @Override
@@ -558,22 +565,22 @@ public class Client {
         return ApiCaller.getApiHashMap("release/sources/", String.class, Service.class, params);
     }
 
-    public List<Artist> searchArtist(String query, ArrayList<String> filters, Boolean autocomplete, Integer start, Integer limit)
+    public List<Artist> searchArtist(String query, ArrayList<ArtistFilters> filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("search/artist/", Artist.class, params);
     }
 
-    public SearchResults<Artist> searchArtistWithExtras(String query, ArrayList<String> filters, Boolean autocomplete, Integer start, Integer limit)
+    public SearchResults<Artist> searchArtistWithExtras(String query, ArrayList<ArtistFilters> filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -581,7 +588,7 @@ public class Client {
         return ApiCaller.getApiParametricType("search/artist/", SearchResults.class, Artist.class, params);
     }
 
-    public Generator<Artist> searchArtistGenerator(final String query, final ArrayList<String> filters, final Boolean autocomplete, final Integer start, final Integer limit)
+    public Generator<Artist> searchArtistGenerator(final String query, final ArrayList<ArtistFilters> filters, final Boolean autocomplete, final Integer start, final Integer limit)
     {
         return new Generator<Artist>() {
             @Override
@@ -677,22 +684,22 @@ public class Client {
         };
     }
 
-    public List<Label> searchLabel(String query, ArrayList<String> filters, Boolean autocomplete, Integer start, Integer limit)
+    public List<Label> searchLabel(String query, ArrayList<LabelFilters> filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("search/label/", Label.class, params);
     }
 
-    public SearchResults<Label> searchLabelWithExtras(String query, ArrayList<String> filters, Boolean autocomplete, Integer start, Integer limit)
+    public SearchResults<Label> searchLabelWithExtras(String query, ArrayList<LabelFilters> filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -700,7 +707,7 @@ public class Client {
         return ApiCaller.getApiParametricType("search/label/", SearchResults.class, Label.class, params);
     }
 
-    public Generator<Label> searchLabelGenerator(final String query, final ArrayList<String> filters, final Boolean autocomplete, final Integer start, final Integer limit)
+    public Generator<Label> searchLabelGenerator(final String query, final ArrayList<LabelFilters> filters, final Boolean autocomplete, final Integer start, final Integer limit)
     {
         return new Generator<Label>() {
             @Override
@@ -725,22 +732,22 @@ public class Client {
         };
     }
 
-    public List<Release> searchRelease(String query, ArrayList<String> filters, Boolean autocomplete, Integer start, Integer limit)
+    public List<Release> searchRelease(String query, ArrayList<ReleaseFilters> filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("search/release/", Release.class, params);
     }
 
-    public SearchResults<Release> searchReleaseWithExtras(String query, ArrayList<String> filters, Boolean autocomplete, Integer start, Integer limit)
+    public SearchResults<Release> searchReleaseWithExtras(String query, ArrayList<ReleaseFilters> filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -748,7 +755,7 @@ public class Client {
         return ApiCaller.getApiParametricType("search/release/", SearchResults.class, Release.class, params);
     }
 
-    public Generator<Release> searchReleaseGenerator(final String query, final ArrayList<String> filters, final Boolean autocomplete, final Integer start, final Integer limit)
+    public Generator<Release> searchReleaseGenerator(final String query, final ArrayList<ReleaseFilters> filters, final Boolean autocomplete, final Integer start, final Integer limit)
     {
         return new Generator<Release>() {
             @Override
@@ -773,28 +780,28 @@ public class Client {
         };
     }
 
-    public List<Track> searchTrack(String query, ArrayList<String> filters, Integer start, Integer limit)
+    public List<Track> searchTrack(String query, ArrayList<TrackFilters> filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("search/track/", Track.class, params);
     }
 
-    public SearchResults<Track> searchTrackWithExtras(String query, ArrayList<String> filters, Integer start, Integer limit)
+    public SearchResults<Track> searchTrackWithExtras(String query, ArrayList<TrackFilters> filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatStringsWSep(filters, ",") : null);
+        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
         params.put("start", start);
         params.put("limit", limit);
         params.put("extras", true);
         return ApiCaller.getApiParametricType("search/track/", SearchResults.class, Track.class, params);
     }
 
-    public Generator<Track> searchTrackGenerator(final String query, final ArrayList<String> filters, final Integer start, final Integer limit)
+    public Generator<Track> searchTrackGenerator(final String query, final ArrayList<TrackFilters> filters, final Integer start, final Integer limit)
     {
         return new Generator<Track>() {
             @Override
