@@ -2,7 +2,10 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'com.github.blitzr'
-version '0.1.5'
+version '0.1.6'
+
+sourceCompatibility = 1.7 // java 7
+targetCompatibility = 1.7
 
 repositories {
     mavenCentral()
