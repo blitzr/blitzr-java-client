@@ -3,6 +3,25 @@ package com.blitzr;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * <p>A Generator is an Iterable object.</p>
+ * <p>In the Blitzr Client we will use it to automatically call the API when needed.
+ * The generator will call the API and get a list of <b>n</b> elements, we will iterate on this list and when we
+ * will reach the end of this list, the Generator will automatically ask for the next elements. So we have an
+ * infinite Iterable Object.</p>
+ *
+ * <em>Example : </em>
+ *
+ * <pre><code>
+ *     Client blitzr = new Client(yourApiKey);
+ *     Generator<Artist> artists = blitzr.getArtistBandsGenerator("bertrand-sebenne", null, null, null);
+ *     for (Artist artist : artists) {
+ *         System.out.println(artist.getName());
+ *     }
+ * </code></pre>
+ *
+ * @param <T>
+ */
 public abstract class Generator<T> implements Iterable<T> {
     private class Condition {
         private boolean isSet;
