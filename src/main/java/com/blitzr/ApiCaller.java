@@ -71,12 +71,12 @@ public class ApiCaller {
 
 
         }
-        couples.add(String.format("%s=%s", "key", Client.getApiKey()));
+        couples.add(String.format("%s=%s", "key", BlitzrClient.getApiKey()));
         return Utils.concatStringsWSep(couples, "&");
     }
 
     public static <T> T getApi (String urlStr, Class<T> T, HashMap<String, Object> params) {
-        urlStr = String.format("%s%s?%s", Client.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
+        urlStr = String.format("%s%s?%s", BlitzrClient.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         T object;
         try {
@@ -90,16 +90,16 @@ public class ApiCaller {
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof UnknownHostException) {
-                throw new BlitzrException(600);
+                throw new BlitzrException(600, "You don't have any internet connection.");
             } else {
-                throw new BlitzrException(601);
+                throw new BlitzrException(601, "The Blitzr Client had a internal error.");
             }
         }
         return object;
     }
 
     public static <T> List<T> getApiList (String urlStr, Class<T> T, HashMap<String, Object> params) {
-        urlStr = String.format("%s%s?%s", Client.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
+        urlStr = String.format("%s%s?%s", BlitzrClient.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         List<T> object = null;
         try {
@@ -122,7 +122,7 @@ public class ApiCaller {
     }
 
     public static <T, V> HashMap<T, V> getApiHashMap (String urlStr, Class<T> T, Class<V> V, HashMap<String, Object> params) {
-        urlStr = String.format("%s%s?%s", Client.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
+        urlStr = String.format("%s%s?%s", BlitzrClient.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         HashMap<T, V> object = null;
         try {
@@ -136,16 +136,16 @@ public class ApiCaller {
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof UnknownHostException) {
-                throw new BlitzrException(600);
+                throw new BlitzrException(600, "You don't have any internet connection.");
             } else {
-                throw new BlitzrException(601);
+                throw new BlitzrException(601, "The Blitzr Client had a internal error.");
             }
         }
         return object;
     }
 
     public static <T, V> T getApiParametricType (String urlStr, Class<T> T, Class<V> V, HashMap<String, Object> params) {
-        urlStr = String.format("%s%s?%s", Client.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
+        urlStr = String.format("%s%s?%s", BlitzrClient.getApiUrl(), urlStr, ApiCaller.parametersFromMap(params));
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         T object = null;
         try {
@@ -159,9 +159,9 @@ public class ApiCaller {
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof UnknownHostException) {
-                throw new BlitzrException(600);
+                throw new BlitzrException(600, "You don't have any internet connection.");
             } else {
-                throw new BlitzrException(601);
+                throw new BlitzrException(601, "The Blitzr Client had a internal error.");
             }
         }
         return object;

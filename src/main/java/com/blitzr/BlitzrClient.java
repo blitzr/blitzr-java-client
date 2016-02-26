@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * <h2>Blitzr Client</h2>
+ * <h2>BlitzrClient</h2>
  *
  * <p>This is the only object you need to call the Blitzr API.</p>
  * <p>Create it by the constructor with your API and call the API by the provided methods.</p>
@@ -37,17 +37,17 @@ import java.util.List;
  * But if you call searchArtist(), you will only fetch a part of those information, but the property 'disambiguation' will be set.
  * You can refer to the methods documentation to know the filled fields based on context.</p>
  */
-public class Client {
+public class BlitzrClient {
     private static final String API_URL = "https://api.blitzr.com/";
     private static String mApiKey;
 
     /**
-     * Create a Blitzr Client with your API Key
+     * Create a BlitzrClient with your API Key
      *
      * @param mApiKey Your Blitzr API Key
      */
-    public Client(String mApiKey) {
-        Client.mApiKey = mApiKey;
+    public BlitzrClient(String mApiKey) {
+        BlitzrClient.mApiKey = mApiKey;
     }
 
     /**
@@ -165,7 +165,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Artist> artists = Client.this.getArtistBands(slug, uuid, tempStart, tempLimit);
+                    List<Artist> artists = BlitzrClient.this.getArtistBands(slug, uuid, tempStart, tempLimit);
                     for (Artist artist: artists) {
                         yield(artist);
                     }
@@ -219,7 +219,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Event> events = Client.this.getArtistEvents(slug, uuid, tempStart, tempLimit);
+                    List<Event> events = BlitzrClient.this.getArtistEvents(slug, uuid, tempStart, tempLimit);
                     for (Event event: events) {
                         yield(event);
                     }
@@ -274,7 +274,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Artist> artists = Client.this.getArtistMembers(slug, uuid, tempStart, tempLimit);
+                    List<Artist> artists = BlitzrClient.this.getArtistMembers(slug, uuid, tempStart, tempLimit);
                     for (Artist artist: artists) {
                         yield(artist);
                     }
@@ -329,7 +329,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Artist> artists = Client.this.getArtistRelated(slug, uuid, tempStart, tempLimit);
+                    List<Artist> artists = BlitzrClient.this.getArtistRelated(slug, uuid, tempStart, tempLimit);
                     for (Artist artist: artists) {
                         yield(artist);
                     }
@@ -393,7 +393,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Release> releases = Client.this.getArtistReleases(slug, uuid, tempStart, tempLimit, type, format, credited);
+                    List<Release> releases = BlitzrClient.this.getArtistReleases(slug, uuid, tempStart, tempLimit, type, format, credited);
                     for (Release release: releases) {
                         yield(release);
                     }
@@ -451,7 +451,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Artist> artists = Client.this.getArtistSimilar(slug, uuid, filters, tempStart, tempLimit);
+                    List<Artist> artists = BlitzrClient.this.getArtistSimilar(slug, uuid, filters, tempStart, tempLimit);
                     for (Artist artist: artists) {
                         yield(artist);
                     }
@@ -572,7 +572,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Event> events = Client.this.getEvents(countryCode, latitude, longitude, city, venue, tag, dateStart, dateEnd, radius, tempStart, tempLimit);
+                    List<Event> events = BlitzrClient.this.getEvents(countryCode, latitude, longitude, city, venue, tag, dateStart, dateEnd, radius, tempStart, tempLimit);
                     for (Event event: events) {
                         yield(event);
                     }
@@ -706,7 +706,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Label> labels = Client.this.getLabelArtists(slug, uuid, tempStart, tempLimit);
+                    List<Label> labels = BlitzrClient.this.getLabelArtists(slug, uuid, tempStart, tempLimit);
                     for (Label label: labels) {
                         yield(label);
                     }
@@ -784,7 +784,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Release> releases = Client.this.getLabelReleases(slug, uuid, format, tempStart, tempLimit);
+                    List<Release> releases = BlitzrClient.this.getLabelReleases(slug, uuid, format, tempStart, tempLimit);
                     for (Release release: releases) {
                         yield(release);
                     }
@@ -842,7 +842,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Label> labels = Client.this.getLabelSimilar(slug, uuid, filters, tempStart, tempLimit);
+                    List<Label> labels = BlitzrClient.this.getLabelSimilar(slug, uuid, filters, tempStart, tempLimit);
                     for (Label label: labels) {
                         yield(label);
                     }
@@ -1035,7 +1035,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Artist> artists = Client.this.searchArtist(query, filters, autocomplete, tempStart, tempLimit);
+                    List<Artist> artists = BlitzrClient.this.searchArtist(query, filters, autocomplete, tempStart, tempLimit);
                     for (Artist artist: artists) {
                         yield(artist);
                     }
@@ -1096,7 +1096,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<City> cities = Client.this.searchCity(query, autocomplete, latitude, longitude, tempStart, tempLimit);
+                    List<City> cities = BlitzrClient.this.searchCity(query, autocomplete, latitude, longitude, tempStart, tempLimit);
                     for (City city: cities) {
                         yield(city);
                     }
@@ -1148,7 +1148,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Country> countries = Client.this.searchCountry(country_code, tempStart, tempLimit);
+                    List<Country> countries = BlitzrClient.this.searchCountry(country_code, tempStart, tempLimit);
                     for (Country country: countries) {
                         yield(country);
                     }
@@ -1229,7 +1229,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Label> labels = Client.this.searchLabel(query, filters, autocomplete, tempStart, tempLimit);
+                    List<Label> labels = BlitzrClient.this.searchLabel(query, filters, autocomplete, tempStart, tempLimit);
                     for (Label label: labels) {
                         yield(label);
                     }
@@ -1311,7 +1311,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Release> releases = Client.this.searchRelease(query, filters, autocomplete, tempStart, tempLimit);
+                    List<Release> releases = BlitzrClient.this.searchRelease(query, filters, autocomplete, tempStart, tempLimit);
                     for (Release release: releases) {
                         yield(release);
                     }
@@ -1386,7 +1386,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Track> tracks = Client.this.searchTrack(query, filters, tempStart, tempLimit);
+                    List<Track> tracks = BlitzrClient.this.searchTrack(query, filters, tempStart, tempLimit);
                     for (Track track: tracks) {
                         yield(track);
                     }
@@ -1512,7 +1512,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Artist> artists = Client.this.getTagArtists(slug, tempStart, tempLimit);
+                    List<Artist> artists = BlitzrClient.this.getTagArtists(slug, tempStart, tempLimit);
                     for (Artist artist: artists) {
                         yield(artist);
                     }
@@ -1564,7 +1564,7 @@ public class Client {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Release> releases = Client.this.getTagReleases(slug, tempStart, tempLimit);
+                    List<Release> releases = BlitzrClient.this.getTagReleases(slug, tempStart, tempLimit);
                     for (Release release: releases) {
                         yield(release);
                     }
