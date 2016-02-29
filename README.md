@@ -18,6 +18,7 @@ The Blitzr Java Client is hosted on Github and is available for Gradle, Maven, S
 You will find the installation guide on the JitPack Blitzr Repository.
 
 Example using Gradle:
+---------------------
 
 Add it in your root build.gradle at the end of repositories:
 ```
@@ -36,6 +37,7 @@ dependencies {
 ```
 
 Example using Maven:
+--------------------
 
 ```xml
 <repositories>
@@ -57,7 +59,8 @@ Add the dependency:
 Examples
 ========
 
-Example classic :
+Example classic:
+----------------
 
 ```java
 BlitzrClient blitzr = new BlitzrClient(yourApiKey);
@@ -86,7 +89,8 @@ for (Release release : releases) {
 // The Beatles' Second Album
 ```
 
-Same example with generator :
+Same example with generator:
+----------------------------
 
 ```java
 BlitzrClient blitzr = new BlitzrClient(yourApiKey);
