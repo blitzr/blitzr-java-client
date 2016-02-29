@@ -1,0 +1,10 @@
+com.blitzr
+com.blitzr.exceptions
+com.blitzr.models.artist
+com.blitzr.models.event
+com.blitzr.models.label
+com.blitzr.models.release
+com.blitzr.models.shop
+com.blitzr.models.tag
+com.blitzr.models.track
+com.blitzr.models.utils
