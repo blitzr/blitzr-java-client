@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>Blitzr Java Client Overview</title>
 </head>
 <body>
     <h1>Blitzr Java Client</h1>
@@ -31,7 +31,7 @@
 
         System.out.println(artist.getName());
 
-        List<Release> releases = blitzr.getArtistReleases(artist.getSlug(), null, 0, 10, ReleaseType.official, ReleaseFormat.album, false);
+        List&lt;Release&gt; releases = blitzr.getArtistReleases(artist.getSlug(), null, 0, 10, ReleaseType.official, ReleaseFormat.album, false);
 
         for (Release release : releases) {
             System.out.println(release.getName());
@@ -59,7 +59,7 @@
 
         System.out.println(artist.getName());
 
-        Generator<Release> releases = blitzr.getArtistReleasesGenerator(artist.getSlug(), null, 0, 10, ReleaseType.official, ReleaseFormat.album, false);
+        Generator&lt;Release&gt; releases = blitzr.getArtistReleasesGenerator(artist.getSlug(), null, 0, 10, ReleaseType.official, ReleaseFormat.album, false);
 
         for (Release release : releases) {
             System.out.println(release.getName());
