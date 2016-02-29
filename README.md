@@ -32,7 +32,7 @@ allprojects {
 Add the dependency:
 ```
 dependencies {
-        compile 'com.github.blitzr:blitzr-java-client:1.0.0'
+        compile 'com.github.blitzr:blitzr-java-client:1.0.1'
 }
 ```
 
@@ -52,7 +52,7 @@ Add the dependency:
 <dependency>
     <groupId>com.github.blitzr</groupId>
     <artifactId>blitzr-java-client</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
