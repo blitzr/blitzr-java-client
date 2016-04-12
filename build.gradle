@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'com.github.blitzr'
-version '0.1.6'
+version '1.0.1'
 
 sourceCompatibility = 1.7 // java 7
 targetCompatibility = 1.7
@@ -22,14 +22,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
 artifacts {
     archives sourcesJar
-    archives javadocJar
 }
 
 // To specify a license in the pom:
