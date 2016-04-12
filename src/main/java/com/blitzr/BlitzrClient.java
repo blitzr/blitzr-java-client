@@ -1263,7 +1263,7 @@ public class BlitzrClient {
      * Search Release by query and filters.
      *
      * @param query Your query
-     * @param filters List of ReleaseFilters. Only artist, tag, format_summary, year and location are available here.
+     * @param filters List of ReleaseFilters. Only artist, tag, format_summary, label, year and location are available here.
      * @param autocomplete Enable predictive search
      * @param start Offset for pagination
      * @param limit Limit for pagination
