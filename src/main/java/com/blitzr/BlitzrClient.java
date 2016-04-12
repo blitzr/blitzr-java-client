@@ -938,6 +938,23 @@ public class BlitzrClient {
     }
 
     /**
+     * Get an Event Radio, a List of Track from the given Event discography.
+     *
+     * @param slug The Event slug
+     * @param uuid The Event UUID
+     * @param number The number of Tracks needed
+     * @return A list of Track
+     */
+    public List<Track> getRadioEvent(String slug, String uuid, Integer number)
+    {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("slug", slug);
+        params.put("uuid", uuid);
+        params.put("limit", number);
+        return ApiCaller.getApiList("radio/event/", Track.class, params);
+    }
+
+    /**
      * Fetch a Release from Blitzr API. Slug or UUID are mandatory.
      *
      * @param slug The Release slug
