@@ -673,14 +673,14 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Artist with fields : slug, uuid, name, real_name, image, thumb and thumb_300
      */
-    public List<Label> getLabelArtists(String slug, String uuid, Integer start, Integer limit)
+    public List<Artist> getLabelArtists(String slug, String uuid, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
         params.put("start", start);
         params.put("limit", limit);
-        return ApiCaller.getApiList("label/artists/", Label.class, params);
+        return ApiCaller.getApiList("label/artists/", Artist.class, params);
     }
 
     /**
@@ -694,9 +694,9 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return An Artist Generator, help for getLabelArtists pagination
      */
-    public Generator<Label> getLabelArtistsGenerator(final String slug, final String uuid, final Integer start, final Integer limit)
+    public Generator<Artist> getLabelArtistsGenerator(final String slug, final String uuid, final Integer start, final Integer limit)
     {
-        return new Generator<Label>() {
+        return new Generator<Artist>() {
             @Override
             protected void run() throws InterruptedException {
                 Integer tempStart = start;
@@ -706,12 +706,12 @@ public class BlitzrClient {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Label> labels = BlitzrClient.this.getLabelArtists(slug, uuid, tempStart, tempLimit);
-                    for (Label label: labels) {
-                        yield(label);
+                    List<Artist> artists = BlitzrClient.this.getLabelArtists(slug, uuid, tempStart, tempLimit);
+                    for (Artist artist: artists) {
+                        yield(artist);
                     }
                     tempStart += tempLimit;
-                    if (labels.size() < tempLimit) {
+                    if (artists.size() < tempLimit) {
                         break;
                     }
                 }
