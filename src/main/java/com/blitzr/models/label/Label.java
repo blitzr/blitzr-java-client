@@ -25,6 +25,20 @@ public class Label {
     private List<Tag> tags;
     private Biography biography;
 
+    public Label(String uuid, String slug) {
+        this.uuid = uuid;
+        this.slug = slug;
+    }
+
+    public Label(String uuid) {
+
+        this.uuid = uuid;
+    }
+
+    public Label() {
+
+    }
+
     public String getName() {
         return name;
     }

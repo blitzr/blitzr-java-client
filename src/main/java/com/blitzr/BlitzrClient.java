@@ -5,6 +5,7 @@ import com.blitzr.models.artist.ArtistExtras;
 import com.blitzr.models.artist.ArtistFilters;
 import com.blitzr.models.event.Event;
 import com.blitzr.models.label.Label;
+import com.blitzr.models.label.LabelArtistsOrder;
 import com.blitzr.models.label.LabelExtras;
 import com.blitzr.models.label.LabelFilters;
 import com.blitzr.models.release.Release;
@@ -673,14 +674,15 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Artist with fields : slug, uuid, name, real_name, image, thumb and thumb_300
      */
-    public List<Label> getLabelArtists(String slug, String uuid, Integer start, Integer limit)
+    public List<Artist> getLabelArtists(String slug, String uuid, Integer start, Integer limit, LabelArtistsOrder order)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
         params.put("start", start);
         params.put("limit", limit);
-        return ApiCaller.getApiList("label/artists/", Label.class, params);
+        params.put("order", order);
+        return ApiCaller.getApiList("label/artists/", Artist.class, params);
     }
 
     /**
@@ -694,9 +696,9 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return An Artist Generator, help for getLabelArtists pagination
      */
-    public Generator<Label> getLabelArtistsGenerator(final String slug, final String uuid, final Integer start, final Integer limit)
+    public Generator<Artist> getLabelArtistsGenerator(final String slug, final String uuid, final Integer start, final Integer limit, final LabelArtistsOrder order)
     {
-        return new Generator<Label>() {
+        return new Generator<Artist>() {
             @Override
             protected void run() throws InterruptedException {
                 Integer tempStart = start;
@@ -706,12 +708,12 @@ public class BlitzrClient {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Label> labels = BlitzrClient.this.getLabelArtists(slug, uuid, tempStart, tempLimit);
-                    for (Label label: labels) {
-                        yield(label);
+                    List<Artist> artists = BlitzrClient.this.getLabelArtists(slug, uuid, tempStart, tempLimit, order);
+                    for (Artist artist: artists) {
+                        yield(artist);
                     }
                     tempStart += tempLimit;
-                    if (labels.size() < tempLimit) {
+                    if (artists.size() < tempLimit) {
                         break;
                     }
                 }
@@ -994,11 +996,11 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Artist with fields : slug, uuid, name, image, thumb, thumb_300, disambiguation, location and tags
      */
-    public List<Artist> searchArtist(String query, ArrayList<ArtistFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public List<Artist> searchArtist(String query, ArtistFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1016,11 +1018,11 @@ public class BlitzrClient {
      * @return The number of results and a list of Artist with fields : slug, uuid, name, image, thumb, thumb_300,
      * disambiguation, location and tags
      */
-    public SearchResults<Artist> searchArtistWithExtras(String query, ArrayList<ArtistFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public SearchResults<Artist> searchArtistWithExtras(String query, ArtistFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1040,7 +1042,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return An Artist Generator, help for searchArtist pagination
      */
-    public Generator<Artist> searchArtistGenerator(final String query, final ArrayList<ArtistFilters> filters, final Boolean autocomplete, final Integer start, final Integer limit)
+    public Generator<Artist> searchArtistGenerator(final String query, final ArtistFilters filters, final Boolean autocomplete, final Integer start, final Integer limit)
     {
         return new Generator<Artist>() {
             @Override
@@ -1188,11 +1190,11 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Label with fields : slug, uuid, name, image, thumb, thumb_300, location and tags
      */
-    public List<Label> searchLabel(String query, ArrayList<LabelFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public List<Label> searchLabel(String query, LabelFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1210,11 +1212,11 @@ public class BlitzrClient {
      * @return The number of results and a list of Label with fields : slug, uuid, name, image, thumb, thumb_300,
      * location and tags
      */
-    public SearchResults<Label> searchLabelWithExtras(String query, ArrayList<LabelFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public SearchResults<Label> searchLabelWithExtras(String query, LabelFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1234,7 +1236,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return A Label Generator, help for searchLabel pagination
      */
-    public Generator<Label> searchLabelGenerator(final String query, final ArrayList<LabelFilters> filters, final Boolean autocomplete, final Integer start, final Integer limit)
+    public Generator<Label> searchLabelGenerator(final String query, final LabelFilters filters, final Boolean autocomplete, final Integer start, final Integer limit)
     {
         return new Generator<Label>() {
             @Override
@@ -1270,11 +1272,11 @@ public class BlitzrClient {
      * @return A list of Release with fields : slug, uuid, name, release_date, artists, image, thumb, thumb_300,
      * location and tags
      */
-    public List<Release> searchRelease(String query, ArrayList<ReleaseFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public List<Release> searchRelease(String query, ReleaseFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1292,11 +1294,11 @@ public class BlitzrClient {
      * @return The number of results and a list of Release with fields : slug, uuid, name, release_date, artists, image,
      * thumb, thumb_300, location and tags
      */
-    public SearchResults<Release> searchReleaseWithExtras(String query, ArrayList<ReleaseFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public SearchResults<Release> searchReleaseWithExtras(String query, ReleaseFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1316,7 +1318,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return A Release Generator, help for searchRelease pagination
      */
-    public Generator<Release> searchReleaseGenerator(final String query, final ArrayList<ReleaseFilters> filters, final Boolean autocomplete, final Integer start, final Integer limit)
+    public Generator<Release> searchReleaseGenerator(final String query, final ReleaseFilters filters, final Boolean autocomplete, final Integer start, final Integer limit)
     {
         return new Generator<Release>() {
             @Override
@@ -1350,11 +1352,11 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Track with fields : uuid, title, tags, artists, release
      */
-    public List<Track> searchTrack(String query, ArrayList<TrackFilters> filters, Integer start, Integer limit)
+    public List<Track> searchTrack(String query, TrackFilters filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("search/track/", Track.class, params);
@@ -1369,11 +1371,11 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return The number of results and a list of Track with fields : uuid, title, tags, artists, release
      */
-    public SearchResults<Track> searchTrackWithExtras(String query, ArrayList<TrackFilters> filters, Integer start, Integer limit)
+    public SearchResults<Track> searchTrackWithExtras(String query, TrackFilters filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("start", start);
         params.put("limit", limit);
         params.put("extras", true);
@@ -1391,7 +1393,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return A Track Generator, help for searchTrack pagination
      */
-    public Generator<Track> searchTrackGenerator(final String query, final ArrayList<TrackFilters> filters, final Integer start, final Integer limit)
+    public Generator<Track> searchTrackGenerator(final String query, final TrackFilters filters, final Integer start, final Integer limit)
     {
         return new Generator<Track>() {
             @Override

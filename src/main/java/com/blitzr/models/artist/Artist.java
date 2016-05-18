@@ -35,6 +35,19 @@ public class Artist {
     private String summary;
     private List<Service> services;
 
+    public Artist(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public Artist(String uuid, String slug) {
+        this.uuid = uuid;
+        this.slug = slug;
+    }
+
+    public Artist() {
+
+    }
+
     public String getReal_name() {
         return real_name;
     }
