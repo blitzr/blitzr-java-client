@@ -7,6 +7,12 @@ public class Tag {
     private String slug;
     private TagDescription description;
 
+    public Tag() {};
+
+    public Tag(String slug) {
+        this.slug = slug;
+    }
+
     public int getWeight() {
         return weight;
     }

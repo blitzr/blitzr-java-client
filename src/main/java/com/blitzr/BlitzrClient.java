@@ -996,11 +996,11 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Artist with fields : slug, uuid, name, image, thumb, thumb_300, disambiguation, location and tags
      */
-    public List<Artist> searchArtist(String query, ArrayList<ArtistFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public List<Artist> searchArtist(String query, ArtistFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1018,11 +1018,11 @@ public class BlitzrClient {
      * @return The number of results and a list of Artist with fields : slug, uuid, name, image, thumb, thumb_300,
      * disambiguation, location and tags
      */
-    public SearchResults<Artist> searchArtistWithExtras(String query, ArrayList<ArtistFilters> filters, Boolean autocomplete, Integer start, Integer limit)
+    public SearchResults<Artist> searchArtistWithExtras(String query, ArtistFilters filters, Boolean autocomplete, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("query", query);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("autocomplete", autocomplete ? "true" : null);
         params.put("start", start);
         params.put("limit", limit);
@@ -1042,7 +1042,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return An Artist Generator, help for searchArtist pagination
      */
-    public Generator<Artist> searchArtistGenerator(final String query, final ArrayList<ArtistFilters> filters, final Boolean autocomplete, final Integer start, final Integer limit)
+    public Generator<Artist> searchArtistGenerator(final String query, final ArtistFilters filters, final Boolean autocomplete, final Integer start, final Integer limit)
     {
         return new Generator<Artist>() {
             @Override
