@@ -5,6 +5,7 @@ import com.blitzr.models.artist.ArtistExtras;
 import com.blitzr.models.artist.ArtistFilters;
 import com.blitzr.models.event.Event;
 import com.blitzr.models.label.Label;
+import com.blitzr.models.label.LabelArtistsOrder;
 import com.blitzr.models.label.LabelExtras;
 import com.blitzr.models.label.LabelFilters;
 import com.blitzr.models.release.Release;
@@ -673,13 +674,14 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Artist with fields : slug, uuid, name, real_name, image, thumb and thumb_300
      */
-    public List<Artist> getLabelArtists(String slug, String uuid, Integer start, Integer limit)
+    public List<Artist> getLabelArtists(String slug, String uuid, Integer start, Integer limit, LabelArtistsOrder order)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
         params.put("start", start);
         params.put("limit", limit);
+        params.put("order", order);
         return ApiCaller.getApiList("label/artists/", Artist.class, params);
     }
 
