@@ -5,6 +5,7 @@ import com.blitzr.models.artist.ArtistExtras;
 import com.blitzr.models.artist.ArtistFilters;
 import com.blitzr.models.event.Event;
 import com.blitzr.models.label.Label;
+import com.blitzr.models.label.LabelArtistsOrder;
 import com.blitzr.models.label.LabelExtras;
 import com.blitzr.models.label.LabelFilters;
 import com.blitzr.models.release.Release;
@@ -673,13 +674,14 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Artist with fields : slug, uuid, name, real_name, image, thumb and thumb_300
      */
-    public List<Artist> getLabelArtists(String slug, String uuid, Integer start, Integer limit)
+    public List<Artist> getLabelArtists(String slug, String uuid, Integer start, Integer limit, LabelArtistsOrder order)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
         params.put("start", start);
         params.put("limit", limit);
+        params.put("order", order);
         return ApiCaller.getApiList("label/artists/", Artist.class, params);
     }
 
@@ -694,7 +696,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return An Artist Generator, help for getLabelArtists pagination
      */
-    public Generator<Artist> getLabelArtistsGenerator(final String slug, final String uuid, final Integer start, final Integer limit)
+    public Generator<Artist> getLabelArtistsGenerator(final String slug, final String uuid, final Integer start, final Integer limit, final LabelArtistsOrder order)
     {
         return new Generator<Artist>() {
             @Override
@@ -706,7 +708,7 @@ public class BlitzrClient {
                 if (tempLimit == null)
                     tempLimit = 10;
                 while(true) {
-                    List<Artist> artists = BlitzrClient.this.getLabelArtists(slug, uuid, tempStart, tempLimit);
+                    List<Artist> artists = BlitzrClient.this.getLabelArtists(slug, uuid, tempStart, tempLimit, order);
                     for (Artist artist: artists) {
                         yield(artist);
                     }
