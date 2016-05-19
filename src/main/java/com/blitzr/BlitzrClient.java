@@ -417,12 +417,12 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Artist with fields : slug, uuid, name, disambiguation, image, thumb, thumb_300 and tags
      */
-    public List<Artist> getArtistSimilar(String slug, String uuid, ArrayList<ArtistFilters> filters, Integer start, Integer limit)
+    public List<Artist> getArtistSimilar(String slug, String uuid, ArtistFilters filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("filters", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("artist/similar/", Artist.class, params);
@@ -440,7 +440,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return An Artist Generator, help for getArtistSimilar pagination
      */
-    public Generator<Artist> getArtistSimilarGenerator(final String slug, final String uuid, final ArrayList<ArtistFilters> filters, final Integer start, final Integer limit)
+    public Generator<Artist> getArtistSimilarGenerator(final String slug, final String uuid, final ArtistFilters filters, final Integer start, final Integer limit)
     {
         return new Generator<Artist>() {
             @Override
@@ -809,12 +809,12 @@ public class BlitzrClient {
      * @param limit Limit for pagination
      * @return A list of Label with fields : slug, uuid, name, image, thumb, thumb_300, location and tags
      */
-    public List<Label> getLabelSimilar(String slug, String uuid, ArrayList<LabelFilters> filters, Integer start, Integer limit)
+    public List<Label> getLabelSimilar(String slug, String uuid, LabelFilters filters, Integer start, Integer limit)
     {
         HashMap<String, Object> params = new HashMap<>();
         params.put("slug", slug);
         params.put("uuid", uuid);
-        params.put("extras", (filters != null) ? Utils.concatOptionsWSep(filters, ",") : null);
+        filters.apply(params);
         params.put("start", start);
         params.put("limit", limit);
         return ApiCaller.getApiList("label/similar/", Label.class, params);
@@ -832,7 +832,7 @@ public class BlitzrClient {
      * @param limit Number of object to retrieve by batch
      * @return A Label Generator, help for getLabelSimilar pagination
      */
-    public Generator<Label> getLabelSimilarGenerator(final String slug, final String uuid, final ArrayList<LabelFilters> filters, final Integer start, final Integer limit)
+    public Generator<Label> getLabelSimilarGenerator(final String slug, final String uuid, final LabelFilters filters, final Integer start, final Integer limit)
     {
         return new Generator<Label>() {
             @Override
@@ -1060,119 +1060,6 @@ public class BlitzrClient {
                     }
                     tempStart += tempLimit;
                     if (artists.size() < tempLimit) {
-                        break;
-                    }
-                }
-            }
-        };
-    }
-
-    /**
-     * Search City by query or geolocation.
-     *
-     * @param query Your query
-     * @param autocomplete Enable predictive search
-     * @param latitude Latitude of the city
-     * @param longitude Longitude of the city
-     * @param start Offset for pagination
-     * @param limit Limit for pagination
-     * @return List of Cities
-     */
-    public List<City> searchCity(String query, Boolean autocomplete, Float latitude, Float longitude, Integer start, Integer limit)
-    {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("query", query);
-        params.put("autocomplete", autocomplete ? "true" : null);
-        params.put("latitude", latitude);
-        params.put("longitude", longitude);
-        params.put("start", start);
-        params.put("limit", limit);
-        return ApiCaller.getApiList("search/city/", City.class, params);
-    }
-
-    /**
-     * Return a Generator with the same data as searchCity method. Helps to paginate.
-     * Slug or UUID are mandatory.
-     * Refer to the Generator documentation to know how to use it.
-     *
-     * @param query Your query
-     * @param autocomplete Enable predictive search
-     * @param latitude Latitude of the city
-     * @param longitude Longitude of the city
-     * @param start Offset of the generator
-     * @param limit Number of object to retrieve by batch
-     * @return A City Generator, help for searchCity pagination
-     */
-    public Generator<City> searchCityGenerator(final String query, final Boolean autocomplete, final Float latitude, final Float longitude, final Integer start, final Integer limit)
-    {
-        return new Generator<City>() {
-            @Override
-            protected void run() throws InterruptedException {
-                Integer tempStart = start;
-                if (tempStart == null)
-                    tempStart = 0;
-                Integer tempLimit = limit;
-                if (tempLimit == null)
-                    tempLimit = 10;
-                while(true) {
-                    List<City> cities = BlitzrClient.this.searchCity(query, autocomplete, latitude, longitude, tempStart, tempLimit);
-                    for (City city: cities) {
-                        yield(city);
-                    }
-                    tempStart += tempLimit;
-                    if (cities.size() < tempLimit) {
-                        break;
-                    }
-                }
-            }
-        };
-    }
-
-    /**
-     * Search Country by country code.
-     *
-     * @param country_code Official country code
-     * @param start Offset for pagination
-     * @param limit Limit for pagination
-     * @return List of Countries
-     */
-    public List<Country> searchCountry(String country_code, Integer start, Integer limit)
-    {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("country_code", country_code);
-        params.put("start", start);
-        params.put("limit", limit);
-        return ApiCaller.getApiList("search/country/", Country.class, params);
-    }
-
-    /**
-     * Return a Generator with the same data as searchCountry method. Helps to paginate.
-     * Slug or UUID are mandatory.
-     * Refer to the Generator documentation to know how to use it.
-     *
-     * @param country_code Official country code
-     * @param start Offset of the generator
-     * @param limit Number of object to retrieve by batch
-     * @return A Country Generator, help for searchCountry pagination
-     */
-    public Generator<Country> searchCountryGenerator(final String country_code, final Integer start, final Integer limit)
-    {
-        return new Generator<Country>() {
-            @Override
-            protected void run() throws InterruptedException {
-                Integer tempStart = start;
-                if (tempStart == null)
-                    tempStart = 0;
-                Integer tempLimit = limit;
-                if (tempLimit == null)
-                    tempLimit = 10;
-                while(true) {
-                    List<Country> countries = BlitzrClient.this.searchCountry(country_code, tempStart, tempLimit);
-                    for (Country country: countries) {
-                        yield(country);
-                    }
-                    tempStart += tempLimit;
-                    if (countries.size() < tempLimit) {
                         break;
                     }
                 }
