@@ -4,6 +4,7 @@ import com.blitzr.models.artist.Artist;
 import com.blitzr.models.artist.ArtistExtras;
 import com.blitzr.models.artist.ArtistFilters;
 import com.blitzr.models.event.Event;
+import com.blitzr.models.harmonia.HarmoniaProvider;
 import com.blitzr.models.label.Label;
 import com.blitzr.models.label.LabelArtistsOrder;
 import com.blitzr.models.label.LabelExtras;
@@ -231,6 +232,21 @@ public class BlitzrClient {
                 }
             }
         };
+    }
+
+    /**
+     * Get the identifiers of this artist in other databases.
+     *
+     * @param slug The Artist slug
+     * @param uuid The Artist UUID
+     * @return A hash map of String and HarmoniaProvider, that identify the artist in other databases
+     */
+    public HashMap<String, HarmoniaProvider> getArtistHarmonia(String slug, String uuid)
+    {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("slug", slug);
+        params.put("uuid", uuid);
+        return ApiCaller.getApiHashMap("artist/harmonia/", String.class, HarmoniaProvider.class, params);
     }
 
     /**
@@ -742,6 +758,21 @@ public class BlitzrClient {
     }
 
     /**
+     * Get the identifiers of this label in other databases.
+     *
+     * @param slug The Label slug
+     * @param uuid The Label UUID
+     * @return A hash map of String and HarmoniaProvider, that identify the label in other databases
+     */
+    public HashMap<String, HarmoniaProvider> getLabelHarmonia(String slug, String uuid)
+    {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("slug", slug);
+        params.put("uuid", uuid);
+        return ApiCaller.getApiHashMap("label/harmonia/", String.class, HarmoniaProvider.class, params);
+    }
+
+    /**
      * Return a list of Releases by the given Label. Slug or UUID are mandatory.
      *
      * @param slug The Artist slug
@@ -984,6 +1015,65 @@ public class BlitzrClient {
         params.put("slug", slug);
         params.put("uuid", uuid);
         return ApiCaller.getApiHashMap("release/sources/", String.class, Service.class, params);
+    }
+
+    /**
+     * Search in multiple types of entities by query. Get the total number of results in the answer.
+     *
+     * @param query Your query
+     * @param types List of EntityType. artist, release, label and track are available here.
+     * @param autocomplete Enable predictive search
+     * @param start Offset for pagination
+     * @param limit Limit for pagination
+     * @return A list of Entities depending on results
+     */
+    public SearchResults<SearchResult> search(String query, List<EntityType> types, Boolean autocomplete, Integer start, Integer limit)
+    {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("query", query);
+        params.put("type", (types != null) ? Utils.concatOptionsWSep(types, ",") : null);
+        params.put("autocomplete", autocomplete ? "true" : null);
+        params.put("start", start);
+        params.put("limit", limit);
+        params.put("extras", true);
+        return ApiCaller.getApiParametricType("search/", SearchResults.class, SearchResult.class, params);
+    }
+
+    /**
+     * Return a Generator with the same data as searchArtist method. Helps to paginate.
+     * Slug or UUID are mandatory.
+     * Refer to the Generator documentation to know how to use it.
+     *
+     * @param query Your query
+     * @param types List of EntityType. artist, release, label and track are available here.
+     * @param autocomplete Enable predictive search
+     * @param start Offset of the generator
+     * @param limit Number of object to retrieve by batch
+     * @return An Artist Generator, help for searchArtist pagination
+     */
+    public Generator<SearchResult> searchGenerator(final String query, final List<EntityType> types, final Boolean autocomplete, final Integer start, final Integer limit)
+    {
+        return new Generator<SearchResult>() {
+            @Override
+            protected void run() throws InterruptedException {
+                Integer tempStart = start;
+                if (tempStart == null)
+                    tempStart = 0;
+                Integer tempLimit = limit;
+                if (tempLimit == null)
+                    tempLimit = 10;
+                while(true) {
+                    SearchResults<SearchResult> entities = BlitzrClient.this.search(query, types, autocomplete, tempStart, tempLimit);
+                    for (SearchResult result: entities.getResults()) {
+                        yield(result);
+                    }
+                    tempStart += tempLimit;
+                    if (entities.getResults().size() < tempLimit) {
+                        break;
+                    }
+                }
+            }
+        };
     }
 
     /**

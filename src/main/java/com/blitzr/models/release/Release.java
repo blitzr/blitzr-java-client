@@ -5,11 +5,12 @@ import com.blitzr.models.artist.Artist;
 import com.blitzr.models.tag.Tag;
 import com.blitzr.models.track.Track;
 import com.blitzr.models.utils.Identifier;
+import com.blitzr.models.utils.SearchResult;
 
 import java.util.Date;
 import java.util.List;
 
-public class Release {
+public class Release extends SearchResult {
     private String type;
     private String format;
     private String image;

@@ -3,10 +3,11 @@ package com.blitzr.models.track;
 import com.blitzr.models.artist.Artist;
 import com.blitzr.models.release.Release;
 import com.blitzr.models.tag.Tag;
+import com.blitzr.models.utils.SearchResult;
 
 import java.util.List;
 
-public class Track {
+public class Track extends SearchResult {
     private String uuid;
     private String title;
     private String duration;
