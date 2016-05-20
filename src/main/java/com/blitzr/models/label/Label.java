@@ -4,11 +4,12 @@ import com.blitzr.models.artist.Artist;
 import com.blitzr.models.release.Release;
 import com.blitzr.models.tag.Tag;
 import com.blitzr.models.utils.Biography;
+import com.blitzr.models.utils.SearchResult;
 import com.blitzr.models.utils.Website;
 
 import java.util.List;
 
-public class Label {
+public class Label extends SearchResult {
     private String name;
     private String uuid;
     private String slug;
